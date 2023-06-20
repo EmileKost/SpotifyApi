@@ -60,8 +60,61 @@ app.get('/succes', (req, res) => {
 De volgende stap van de authenticatie is het aanvragen van de access en refreshtoken. Dit kan je doen door met de ingebouwde functie .authorizeCodeGrant() deze data aan te vragen. Het enige wat je hier voor nodig hebt is een developer account met een gecreeerde applicatie. Hier kan je het clientId en clientSecret opvragen. Als het opvragen succesvol is verlopen krijg je een access  code die voor ongeveer een klein uur geldig is. Om te voorkomen dat de toegang verloopt kan je met de refresh token de toegang verlengen en dus opnieuw opvragen. Na deze stap heb je toegang tot de data van Spotify en kan je eindelijk beginnen met het ophalen van data.
 
 #### 3. Opvragen playlist data
+````
 
+app.get('/house', (req, res) => {
+    spotifyApi.getPlaylist('4BVDJqJ6OK2A77E3e8ZFb8')
+    .then(data => {
+        data = data.body;
 
+        const playlistData = {
+            ownerName: data.owner.display_name,
+            playlistName: data.name,
+            songs: data.tracks.items,
+        }
+        playlistData.songs.forEach(song => {
+            console.log(song.track.album.images)
+        })
 
+        res.render('house', {
+            pageTitle: 'House',
+            data: playlistData
+        })
+    }).catch(err => {
+        console.log(err);
+    })
+})
+````
+Voor mijn applicatie wilde ik de door mij gekozen playlists laten zien aan de gebruiker. Om een specifieke playlist te verkrijgen heb ik gebrui gemaakt van de functie .getPlaylist() waarbij ik het id van de playlist heb ingevuld. Ik wilde geen gebruik maken van overbodige data en heb daarom object destructuring toegepast om alleen gewenste data mee te geven aan het renderen van de pagina. 
 
+#### 4. Renderen playlist
+````
+<main>
+    <h1><%= data.playlistName %></h1>
+    <ul id="songs-container">
+        <% data.songs.forEach(song => { %>
+            <li class="song-item">
+                <figure>
+                    <img src="<%= song.track.album.images[0].url %>"/>
+                </figure>
+                <h4><%= song.track.name %></h4>
+                <section>
+                    <% song.track.artists.forEach(artist => { %>
+                        <p><%=artist.name %></p>
+                    <% }) %>
+                </section>
+            </li>
+        <% }) %>
+    </ul>
+</main>
+````
+Voor het renderen van de pagina heb ik gebruik gemaakt van EJS, om zo inline javascript toe te kunnen passen voor het renderen van de pagina's.
+Data is het meegegeven object dat door middel van een forEach() functie dynamisch wordt gerenderd.
+
+### Scroll Snap Align
+Door gebrek aan tijd en kennis heb ik erg moeite gehad met een server side gerenderde lijst te manipuleren. Ik wilde de app toch wel graag visueel sterker maken en heb daarom scroll-snap-align: center toegepast om te zorgen dat de sildeshow elke keer het middelste element netjes uitlijnt.
+![Screenshot 2023-06-20 at 11 25 51](https://github.com/EmileKost/SpotifyApi/assets/70690100/eca18220-5d6d-42bf-a473-73236642a39f)
+
+### Reflectie
+Ik baal best wel dat ik niet meer ben toegekomen aan de visuele kant van de opdracht. Toch ben ik wel heel tevreden met wat ik heb kunnen maken met de tijd die ik had. Ik heb heel veel onderzoek kunnen doen over de Spotify API waardoor ik deze nu erg goed snap, tevens heb ik hierdoor de juiste authorization methode kunnen vinden en deze toe te passen in mijn applicatie. Ik ga zeker mijn applicatie nog uitbreiden tot een geheel functionerend concept.
 
