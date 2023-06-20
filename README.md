@@ -57,5 +57,11 @@ app.get('/succes', (req, res) => {
     })
 })
 ````
+De volgende stap van de authenticatie is het aanvragen van de access en refreshtoken. Dit kan je doen door met de ingebouwde functie .authorizeCodeGrant() deze data aan te vragen. Het enige wat je hier voor nodig hebt is een developer account met een gecreeerde applicatie. Hier kan je het clientId en clientSecret opvragen. Als het opvragen succesvol is verlopen krijg je een access  code die voor ongeveer een klein uur geldig is. Om te voorkomen dat de toegang verloopt kan je met de refresh token de toegang verlengen en dus opnieuw opvragen. Na deze stap heb je toegang tot de data van Spotify en kan je eindelijk beginnen met het ophalen van data.
+
+#### 3. Opvragen playlist data
+
+
+
 
 
