@@ -18,11 +18,11 @@ app.use(bodyParser.json());
 
 let scopes = ['user-read-private', 'user-read-email', 'user-modify-private', 'playlist-read-private', 'playlist-read-collaborative'],
     redirectUri = 'http://localhost:3004/succes',
-    clientId = '049ba3874e8c424d933a1f384e6a54c2';
+    clientId = CLIENT_ID;
 
 const credentials = {
-    clientId: '049ba3874e8c424d933a1f384e6a54c2',
-    clientSecret: '04c7db9cf82048d284c9e94535bbc546',
+    clientId: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
     redirectUri:  'http://localhost:3004/succes',
 }
 
